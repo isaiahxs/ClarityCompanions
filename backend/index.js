@@ -61,3 +61,50 @@ app.post('/api/completion', async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
+
+// pseudocode breakdown of what is happening
+// import required libraries and modules
+
+// 1. Import required libraries and modules
+//    - dotenv for environment variables
+//    - cors for cross-origin support
+//    - express for server functionality
+//    - OpenAI for the GPT-3 API
+
+// 2. Initialize dotenv
+//    - This allows you to use environment variables stored in a .env file
+
+// 3. Initialize the Express app and set the port
+//    - Here we create an instance of an Express application and specify the port on which it will run
+
+// 4. Apply Middleware
+//    - Use CORS to handle cross-origin requests
+//    - Use express.json() to parse incoming JSON payloads
+
+// 5. Set up a test GET endpoint
+//    - A simple GET request to the root URL will respond with "Hello World!"
+
+// 6. Start the server
+//    - The Express app starts listening on the given port
+
+// 7. Initialize the OpenAI API
+//    - Using the API key stored in environment variables, initialize an OpenAI instance
+
+// 8. Commented-out test function for OpenAI
+//    - This is a test function to see how to interact with the OpenAI API (it's commented out, so not being used)
+
+// 9. Define POST endpoint '/api/completion'
+//    9.1 Extract 'messages' from the request body
+//        - This should be an array of message objects
+
+//    9.2 Validate 'messages'
+//        - If 'messages' is missing or invalid, respond with a 400 error
+
+//    9.3 Make API request to OpenAI
+//        - Send 'messages' to OpenAI and await a response
+
+//    9.4 Extract assistant message and send it to frontend
+//        - Parse the OpenAI response to get the assistant's message and send it back in the API response
+
+//    9.5 Handle Errors
+//        - If anything goes wrong, catch the error and respond with a 500 error

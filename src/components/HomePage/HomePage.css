@@ -1,0 +1,47 @@
+.home-container {
+    max-width: 900px;
+    padding: 50px;
+}
+
+.messages-container {
+    overflow-y: auto;
+}
+
+.message {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: start;
+    font-size: 1.2rem;
+}
+
+.divider-line {
+    height: 2px;
+    background-color: gray;
+    color: red;
+}
+
+
+.input-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+}
+
+.input-field {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    max-height: 200px !important;
+    min-height: 50px;
+    max-width: 600px !important;
+    height: auto;
+    resize: none;
+}
+
+.send-button {
+    /* cursor: pointer; */
+}
