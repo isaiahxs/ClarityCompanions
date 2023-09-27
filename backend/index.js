@@ -53,7 +53,9 @@ app.post('/api/completion', async (req, res) => {
 
         console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
 
-        res.json(completion.choices[0]);
+        // res.json(completion.choices[0]);
+        const assistantMessageContent = completion.choices[0].message.content;
+        res.json({ text: assistantMessageContent });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Something went wrong' });

@@ -16,14 +16,22 @@ export default function HomePage() {
         setMessages(updatedMessages);
 
         // Send a request to your backend
-        const response = await axios.post('http://localhost:3001/api/completion', { messages: updatedMessages });
-        const assistantMessage = { role: 'assistant', content: response.data.text };
+        try {
+            const response = await axios.post('http://localhost:3001/api/completion', { messages: updatedMessages });
 
-        // Add assistant's message to chat log
-        setMessages([...messages, userMessage, assistantMessage]);
+            // Check if 'text' exists in response.data, if not, look at 'content' which you use in OpenAI response
+            const assistantMessageContent = response.data.text || response.data.content;
 
-        // Clear the input
-        setInput('');
+            const assistantMessage = { role: 'assistant', content: assistantMessageContent };
+
+            // Add assistant's message to chat log
+            setMessages(prevMessages => [...prevMessages, assistantMessage]);
+
+            // Clear the input
+            setInput('');
+        } catch (error) {
+            console.error("There was an error in communicating with the OpenAI API:", error);
+        }
     };
 
     return (
