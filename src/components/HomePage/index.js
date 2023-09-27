@@ -10,10 +10,13 @@ export default function HomePage() {
 
         // Add user's message to chat log
         const userMessage = { role: 'user', content: input };
-        setMessages([...messages, userMessage]);
+        const updatedMessages = [...messages, userMessage];
+
+        // Update the state here
+        setMessages(updatedMessages);
 
         // Send a request to your backend
-        const response = await axios.post('http://localhost:3001/api/completion', { prompt: input });
+        const response = await axios.post('http://localhost:3001/api/completion', { messages: updatedMessages });
         const assistantMessage = { role: 'assistant', content: response.data.text };
 
         // Add assistant's message to chat log
