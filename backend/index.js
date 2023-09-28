@@ -25,15 +25,34 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-// const testOpenAI = async () => {
-//     const chatCompletion = await openai.chat.completions.create({
-//         model: "gpt-3.5-turbo",
-//         messages: [{ "role": "user", "content": "Hello!" }],
-//     });
-//     console.log(chatCompletion.choices[0].message);
-// };
+// app.post('/api/completion', async (req, res) => {
+//     const messages = req.body.messages;
 
-// testOpenAI();  // Call the async function to test OpenAI
+//     console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
+
+//     if (!messages || !Array.isArray(messages) || messages.length === 0) {
+//         res.status(400).json({ error: "'messages' is a required property and should be a non-empty array" });
+//         return;
+//     }
+
+//     try {
+//         const completion = await openai.chat.completions.create({
+//             model: "gpt-3.5-turbo",
+//             messages: messages,
+//             max_tokens: 60
+//         });
+
+//         console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
+
+//         // res.json(completion.choices[0]);
+//         const assistantMessageContent = completion.choices[0].message.content;
+//         res.json({ text: assistantMessageContent });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ error: 'Something went wrong' });
+//     }
+// });
+
 
 app.post('/api/completion', async (req, res) => {
     const messages = req.body.messages;
@@ -54,15 +73,55 @@ app.post('/api/completion', async (req, res) => {
 
         console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
 
-        // res.json(completion.choices[0]);
         const assistantMessageContent = completion.choices[0].message.content;
-        res.json({ text: assistantMessageContent });
+        console.log('THIS IS OUR assistantMessageContent:', assistantMessageContent);
+
+        // Call ElevenLabs API
+        const headers = {
+            'xi-api-key': process.env.ELEVEN_API_KEY,
+            'Accept': 'audio/mpeg',
+            'Content-Type': 'application/json'
+        };
+
+        const data = {
+            text: assistantMessageContent,
+            model_id: "eleven_multilingual_v2",
+            voice_settings: {
+                stability: 0.65,
+                similarity_boost: 0.85,
+                style: 0.10,
+                use_speaker_boost: true
+            }
+        };
+
+        console.log('THIS IS RIGHT BEFORE OUR ELEVEN RESPONSE');
+
+        const elevenResponse = await axios.post(
+            'https://api.elevenlabs.io/v1/text-to-speech/QXfxCfBzNjKSfjG6OB75/stream',
+            data,
+            { headers }
+        )
+        console.log('THIS IS OUR elevenResponse:', elevenResponse);
+        console.log('THIS IS OUR ELEVEN DATA', elevenResponse.data)
+
+        // Respond to frontend
+        const base64AudioData = Buffer.from(elevenResponse.data).toString('base64');
+
+        res.json({
+            text: assistantMessageContent,
+            audioData: base64AudioData
+        });
+
+        // res.json({ text: assistantMessageContent, audioData: elevenResponse.data });
+        console.log('THIS IS OUR elevenResponse.data:', elevenResponse.data)
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
 
+// experimenting on basic eleven post request
 app.post('/api/text-to-speech', async (req, res) => {
     const textData = req.body.textData;
     const headers = {
@@ -92,10 +151,45 @@ app.post('/api/text-to-speech', async (req, res) => {
         // You'll likely want to do something with the response here, like sending the audio back to the client
         res.status(200).json(response.data);
     } catch (error) {
-        console.log(error);
+        console.error(JSON.stringify(error, null, 2));
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
+
+
+// app.post('/api/text-to-speech', async (req, res) => {
+//     const textData = req.body.textData;
+//     const headers = {
+//         'xi-api-key': process.env.ELEVEN_API_KEY,
+//         'Content-Type': 'application/json'
+//     };
+
+//     const data = {
+//         text: textData,
+//         // model_id: "eleven_monolingual_v1",
+//         model_id: "eleven_multilingual_v2",
+//         voice_settings: {
+//             stability: 0,
+//             similarity_boost: 0,
+//             style: 0,
+//             use_speaker_boost: true
+//         }
+//     };
+
+//     try {
+//         const response = await axios.post(
+//             'https://api.elevenlabs.io/v1/text-to-speech/QXfxCfBzNjKSfjG6OB75/stream',
+//             data,
+//             { headers }
+//         );
+//         console.log(response);
+//         // You'll likely want to do something with the response here, like sending the audio back to the client
+//         res.status(200).json(response.data);
+//     } catch (error) {
+//         console.error(JSON.stringify(error, null, 2));
+//         res.status(500).json({ error: 'Something went wrong' });
+//     }
+// });
 
 // pseudocode breakdown of what is happening
 // import required libraries and modules
