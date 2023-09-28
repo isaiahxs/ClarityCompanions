@@ -62,6 +62,10 @@
     resize: none;
 }
 
+.toggle-music-button {
+    width: 130px;
+}
+
 .send-button {
     /* cursor: pointer; */
 }

@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
 import OpenAI from 'openai';
+import axios from 'axios';
 
 dotenv.config();
 
@@ -58,6 +59,40 @@ app.post('/api/completion', async (req, res) => {
         res.json({ text: assistantMessageContent });
     } catch (err) {
         console.error(err);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+});
+
+app.post('/api/text-to-speech', async (req, res) => {
+    const textData = req.body.textData;
+    const headers = {
+        'xi-api-key': process.env.ELEVEN_API_KEY,
+        'Content-Type': 'application/json'
+    };
+
+    const data = {
+        text: textData,
+        // model_id: "eleven_monolingual_v1",
+        model_id: "eleven_multilingual_v2",
+        voice_settings: {
+            stability: 0,
+            similarity_boost: 0,
+            style: 0,
+            use_speaker_boost: true
+        }
+    };
+
+    try {
+        const response = await axios.post(
+            'https://api.elevenlabs.io/v1/text-to-speech/QXfxCfBzNjKSfjG6OB75/stream',
+            data,
+            { headers }
+        );
+        console.log(response);
+        // You'll likely want to do something with the response here, like sending the audio back to the client
+        res.status(200).json(response.data);
+    } catch (error) {
+        console.log(error);
         res.status(500).json({ error: 'Something went wrong' });
     }
 });

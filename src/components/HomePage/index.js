@@ -121,7 +121,7 @@ export default function HomePage() {
                         <button className='send-button' type="submit">Send</button>
                     </div>
                 </form>
-                <button onClick={toggleMusic}>
+                <button className='toggle-music-button' onClick={toggleMusic}>
                     {isMusicPlaying ? 'Pause Music' : 'Play Music'}
                 </button>
                 <input
