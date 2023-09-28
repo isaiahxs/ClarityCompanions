@@ -1,10 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import starryMountains from '../../assets/videos/starry-mountains.mp4';
+// import backgroundMusic from '../../assets/music/OG-slowed.mp3';
+import backgroundMusic from '../../assets/music/OG-basic-piano.mp3';
 import './HomePage.css';
 
 export default function HomePage() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+
+    const [isMusicPlaying, setIsMusicPlaying] = useState(true); // State to toggle music
+    const audioRef = useRef(null); // Ref to the audio element
+
+    // Toggle function for background music
+    const toggleMusic = () => {
+        if (audioRef.current) {
+            if (isMusicPlaying) {
+                audioRef.current.pause();
+            } else {
+                audioRef.current.play();
+            }
+            setIsMusicPlaying(!isMusicPlaying);
+        }
+    };
 
     const handleInput = (e) => {
         const textarea = e.target;
@@ -48,36 +66,52 @@ export default function HomePage() {
         }
     };
 
-    useEffect(() => {
-        const messagesContainer = document.querySelector('.messages-container');
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }, [messages]);  // Run this effect whenever 'messages' changes
+    // useEffect(() => {
+    //     const messagesContainer = document.querySelector('.messages-container');
+    //     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    // }, [messages]);  // Run this effect whenever 'messages' changes
 
     return (
+        <>
+            <audio ref={audioRef} autoPlay loop>
+                <source src={backgroundMusic} type="audio/mp3" />
+            </audio>
+            {/* <button onClick={toggleMusic}>
+                {isMusicPlaying ? 'Pause Music' : 'Play Music'}
+            </button> */}
 
-        <div className='home-container'>
-            <h1>How can we help you today?</h1>
-            {/* need to make it distinguishable who the message is coming from. if it is me or the assistant */}
-            <div className='messages-container'>
-                {messages.map((msg, i) => (
-                    <>
-                        <p className='message' key={i}>{msg.content}</p>
-                        <div className='divider-line' />
-                    </>
-                ))}
-            </div>
-            <form onSubmit={handleSubmit}>
-                <div className='input-section'>
-                    <textarea
-                        className='input-field'
-                        type="text"
-                        value={input}
-                        // onChange={e => setInput(e.target.value)}
-                        onChange={handleInput}
-                    />
-                    <button className='send-button' type="submit">Send</button>
+            <video className='background-video' autoPlay loop muted>
+                <source src={starryMountains} type='video/mp4' />
+                Your browser does not support the video tag.
+            </video>
+
+            <div className='home-container'>
+                <h1>How can we help you?</h1>
+                {/* need to make it distinguishable who the message is coming from. if it is me or the assistant */}
+                <div className='messages-container'>
+                    {messages.map((msg, i) => (
+                        <div className='individual-message' key={i}>
+                            <p className='message'>{msg.content}</p>
+                            <div className='divider-line' />
+                        </div>
+                    ))}
                 </div>
-            </form>
-        </div>
+                <form onSubmit={handleSubmit}>
+                    <div className='input-section'>
+                        <textarea
+                            className='input-field'
+                            type="text"
+                            value={input}
+                            // onChange={e => setInput(e.target.value)}
+                            onChange={handleInput}
+                        />
+                        <button className='send-button' type="submit">Send</button>
+                    </div>
+                </form>
+                <button onClick={toggleMusic}>
+                    {isMusicPlaying ? 'Pause Music' : 'Play Music'}
+                </button>
+            </div>
+        </>
     );
 }
