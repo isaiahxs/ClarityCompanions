@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import starryMountains from '../../assets/videos/starry-mountains.mp4';
-// import backgroundMusic from '../../assets/music/OG-slowed.mp3';
-import backgroundMusic from '../../assets/music/OG-basic-piano.mp3';
+import backgroundMusic from '../../assets/music/OG-slowed.mp3';
+// import backgroundMusic from '../../assets/music/OG-basic-piano.mp3';
+// import backgroundMusic from '../../assets/music/OG-rous-cover.mp3';
 import './HomePage.css';
 
 export default function HomePage() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
 
-    const [isMusicPlaying, setIsMusicPlaying] = useState(true); // State to toggle music
+    const [isMusicPlaying, setIsMusicPlaying] = useState(false); // State to toggle music
+    const [volume, setVolume] = useState(0.5); // Initial volume set to 50%
+
     const audioRef = useRef(null); // Ref to the audio element
 
     // Toggle function for background music
@@ -22,6 +25,16 @@ export default function HomePage() {
             }
             setIsMusicPlaying(!isMusicPlaying);
         }
+    };
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume;
+        }
+    }, [volume]);
+
+    const handleVolumeChange = (e) => {
+        setVolume(e.target.value);
     };
 
     const handleInput = (e) => {
@@ -73,7 +86,7 @@ export default function HomePage() {
 
     return (
         <>
-            <audio ref={audioRef} autoPlay loop>
+            <audio ref={audioRef} loop>
                 <source src={backgroundMusic} type="audio/mp3" />
             </audio>
             {/* <button onClick={toggleMusic}>
@@ -111,6 +124,14 @@ export default function HomePage() {
                 <button onClick={toggleMusic}>
                     {isMusicPlaying ? 'Pause Music' : 'Play Music'}
                 </button>
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={volume}
+                    onChange={handleVolumeChange}
+                />
             </div>
         </>
     );
