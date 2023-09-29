@@ -68,6 +68,14 @@ export default function HomePage() {
         }
     };
 
+    const isValidBase64 = (str) => {
+        try {
+            return btoa(atob(str)) === str;
+        } catch (err) {
+            return false;
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -81,9 +89,18 @@ export default function HomePage() {
         // Send a request to your backend
         try {
             const response = await axios.post('http://localhost:3001/api/completion', { messages: updatedMessages });
-            console.log('THIS IS OUR RESPONSE:', response);
-            console.log('THIS IS OUR RESPONSE DATA:', response.data);
-            console.log('THIS IS THE TYPE OF RESPONSE DATA', typeof response.data.audioData);
+            // console.log('THIS IS OUR RESPONSE:', response);
+            // console.log('THIS IS OUR RESPONSE DATA:', response.data);
+            // console.log('THIS IS THE TYPE OF RESPONSE DATA', typeof response.data.audioData);
+
+            console.log('ORIGINAL BASE64:', response.data.audioData);
+
+            if (isValidBase64(response.data.audioData)) {
+                console.log("This is a valid base64 string.");
+            } else {
+                console.log("This is NOT a valid base64 string.");
+            }
+
 
             // Check if 'text' exists in response.data, if not, look at 'content' which you use in OpenAI response
             const assistantMessageContent = response.data.text || response.data.content;
@@ -95,26 +112,28 @@ export default function HomePage() {
             setMessages(prevMessages => [...prevMessages, assistantMessage]);
 
             if (isVoiceAssistantEnabled) {
-                // const arrayBuffer = new Uint8Array(response.data.audioData).buffer;
-
-                // const audioBlob = new Blob([response.data.audioData], { type: 'audio/mp3' });
-                // const audioURL = URL.createObjectURL(audioBlob);
-                // console.log('THIS IS OUR audioURL:', audioURL)
-
                 // Decode the base64 audio data and convert to Blob
-                console.log('THIS IS OUR FRONTEND response.data.audioData:', response.data.audioData)
-                const decodedData = atob(response.data.audioData);
-                // const arrayBuffer = new Uint8Array(decodedData.length);
-                // for (let i = 0; i < decodedData.length; i++) {
-                // arrayBuffer[i] = decodedData.charCodeAt(i);
-                // }
-                // const arrayBuffer = Buffer.from(response.data.audioData, 'base64');
+                // console.log('THIS IS OUR FRONTEND response.data.audioData:', response.data.audioData)
 
-                const audioBlob = new Blob([arrayBuffer.buffer], { type: 'audio/mp3' });
+                //---- converting base64 back to binary data (byte array), creating a blob from the byte array, creating an object url from the blob, setting the object url as the 'src' of the audio element and playing the audio
+                // Decode the base64 string into a byte array
+                const byteCharacters = atob(response.data.audioData);
+                console.log('THIS IS OUR DECODED STRING:', byteCharacters)
 
+                const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
+                console.log('THESE ARE OUR BYTE NUMBERS:', byteNumbers);
+
+                const byteArray = new Uint8Array(byteNumbers);
+                console.log('THIS IS OUR BYTE ARRAY:', byteArray);
+
+                // Convert the byte array to a Blob
+                const audioBlob = new Blob([byteArray], { type: 'audio/mpeg' });
+                console.log('THIS IS OUR audioBlob:', audioBlob);
+
+                // Create an object URL from the Blob
                 const audioURL = URL.createObjectURL(audioBlob);
-                console.log('THIS IS OUR audioURL:', audioURL)
 
+                console.log('THIS IS OUR audioURL:', audioURL)
 
                 // Code to download the blob as an MP3 file and see if it works
                 const a = document.createElement("a");
@@ -141,10 +160,6 @@ export default function HomePage() {
         }
     };
 
-    // useEffect(() => {
-    //     const messagesContainer = document.querySelector('.messages-container');
-    //     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    // }, [messages]);  // Run this effect whenever 'messages' changes
 
     return (
         <>

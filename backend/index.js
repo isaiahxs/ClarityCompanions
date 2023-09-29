@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import OpenAI from 'openai';
 import axios from 'axios';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -79,41 +80,64 @@ app.post('/api/completion', async (req, res) => {
         // Call ElevenLabs API
         const headers = {
             'xi-api-key': process.env.ELEVEN_API_KEY,
-            'Accept': 'audio/mpeg',
+            'Accept': '*/*',
             'Content-Type': 'application/json'
         };
 
         const data = {
-            text: assistantMessageContent,
-            model_id: "eleven_multilingual_v2",
-            voice_settings: {
-                stability: 0.65,
-                similarity_boost: 0.85,
-                style: 0.10,
-                use_speaker_boost: true
+            "text": assistantMessageContent,
+            "model_id": "eleven_multilingual_v2",
+            "voice_settings": {
+                "stability": 0.65,
+                "similarity_boost": 0.85,
+                "style": 0.10,
+                "use_speaker_boost": true
+            }
+        }
+
+        const isValidBase64 = (str) => {
+            try {
+                return btoa(atob(str)) === str;
+            } catch (err) {
+                return false;
             }
         };
 
-        console.log('THIS IS RIGHT BEFORE OUR ELEVEN RESPONSE');
+        // console.log('THIS IS RIGHT BEFORE OUR ELEVEN RESPONSE');
 
         const elevenResponse = await axios.post(
             'https://api.elevenlabs.io/v1/text-to-speech/QXfxCfBzNjKSfjG6OB75/stream',
             data,
-            { headers }
+            {
+                headers,
+                responseType: 'arraybuffer'
+            } //this tells Axios to treat the response data as binary data
         )
-        console.log('THIS IS OUR elevenResponse:', elevenResponse);
-        console.log('THIS IS OUR ELEVEN DATA', elevenResponse.data)
+
+        fs.writeFileSync('directOutput.mp3', elevenResponse.data, 'binary');
+
+        // console.log('THIS IS OUR elevenResponse:', elevenResponse);
+        // console.log('THIS IS OUR ELEVEN DATA', elevenResponse.data)
+        console.log('Type of elevenResponse.data:', typeof elevenResponse.data);
+        console.log('eleven labs data slice', elevenResponse.data.slice(0, 100));
+        console.log('Eleven Response Headers:', elevenResponse.headers);
+
 
         // Respond to frontend
-        const base64AudioData = Buffer.from(elevenResponse.data).toString('base64');
+        const base64AudioData = Buffer.from(elevenResponse.data, 'binary').toString('base64');
+
+        // Check if base64AudioData is actually valid base64
+        if (isValidBase64(base64AudioData)) {
+            console.log("This is a valid base64 string.");
+        } else {
+            console.log("This is NOT a valid base64 string.");
+        }
 
         res.json({
             text: assistantMessageContent,
             audioData: base64AudioData
+            // audioData: elevenResponse.data
         });
-
-        // res.json({ text: assistantMessageContent, audioData: elevenResponse.data });
-        console.log('THIS IS OUR elevenResponse.data:', elevenResponse.data)
 
     } catch (err) {
         console.error(err);
