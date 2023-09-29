@@ -112,41 +112,49 @@ export default function HomePage() {
             setMessages(prevMessages => [...prevMessages, assistantMessage]);
 
             if (isVoiceAssistantEnabled) {
-                // Decode the base64 audio data and convert to Blob
-                // console.log('THIS IS OUR FRONTEND response.data.audioData:', response.data.audioData)
-
-                //---- converting base64 back to binary data (byte array), creating a blob from the byte array, creating an object url from the blob, setting the object url as the 'src' of the audio element and playing the audio
-                // Decode the base64 string into a byte array
-                const byteCharacters = atob(response.data.audioData);
-                console.log('THIS IS OUR DECODED STRING:', byteCharacters)
-
-                const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
-                console.log('THESE ARE OUR BYTE NUMBERS:', byteNumbers);
-
-                const byteArray = new Uint8Array(byteNumbers);
-                console.log('THIS IS OUR BYTE ARRAY:', byteArray);
-
-                // Convert the byte array to a Blob
-                const audioBlob = new Blob([byteArray], { type: 'audio/mpeg' });
-                console.log('THIS IS OUR audioBlob:', audioBlob);
-
-                // Create an object URL from the Blob
-                const audioURL = URL.createObjectURL(audioBlob);
-
-                console.log('THIS IS OUR audioURL:', audioURL)
-
-                // Code to download the blob as an MP3 file and see if it works
-                const a = document.createElement("a");
-                document.body.appendChild(a);
-                a.style = "display: none";
-                a.href = audioURL;
-                a.download = 'test.mp3';
-                a.click();
-                window.URL.revokeObjectURL(audioURL);
+                await new Promise(resolve => {
 
 
-                voiceAssistantAudioRef.current.src = audioURL;
-                voiceAssistantAudioRef.current.play();
+                    //---- converting base64 back to binary data (byte array), creating a blob from the byte array, creating an object url from the blob, setting the object url as the 'src' of the audio element and playing the audio
+                    // Decode the base64 string into a byte array
+                    const byteCharacters = atob(response.data.audioData);
+                    console.log('THIS IS OUR DECODED STRING:', byteCharacters)
+
+                    const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
+                    console.log('THESE ARE OUR BYTE NUMBERS:', byteNumbers);
+
+                    const byteArray = new Uint8Array(byteNumbers);
+                    console.log('THIS IS OUR BYTE ARRAY:', byteArray);
+
+                    // Convert the byte array to a Blob
+                    const audioBlob = new Blob([byteArray], { type: 'audio/mp3' });
+                    console.log('THIS IS OUR audioBlob:', audioBlob);
+
+                    // Create an object URL from the Blob
+                    const audioURL = URL.createObjectURL(audioBlob);
+
+                    console.log('THIS IS OUR audioURL:', audioURL)
+
+                    // Code to download the blob as an MP3 file and see if it works
+                    const a = document.createElement("a");
+                    document.body.appendChild(a);
+                    a.style = "display: none";
+                    a.href = audioURL;
+                    a.download = 'test.mp3';
+                    a.click();
+                    // window.URL.revokeObjectURL(audioURL);
+
+                    // Wait for the audio to load metadata before playing
+                    voiceAssistantAudioRef.current.addEventListener("loadedmetadata", () => {
+                        resolve();
+                    });
+
+
+                    voiceAssistantAudioRef.current.src = audioURL;
+                });
+                // Now play the audio
+                voiceAssistantAudioRef.current.play().catch(e => console.error('playback failed', e));
+                // voiceAssistantAudioRef.current.play();
             } else {
                 console.error('audioData not found');
             }
