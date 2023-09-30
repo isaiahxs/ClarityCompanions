@@ -69,7 +69,7 @@ app.post('/api/completion', async (req, res) => {
         const completion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: messages,
-            max_tokens: 60
+            max_tokens: 100
         });
 
         console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
@@ -114,6 +114,7 @@ app.post('/api/completion', async (req, res) => {
             } //this tells Axios to treat the response data as binary data
         )
 
+        // TO MAKE SURE WE ARE GETTING THE RIGHT DATA AND IT IS READABLE
         fs.writeFileSync('directOutput.mp3', elevenResponse.data, 'binary');
 
         // console.log('THIS IS OUR elevenResponse:', elevenResponse);

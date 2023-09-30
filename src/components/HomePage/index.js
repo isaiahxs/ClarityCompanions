@@ -136,12 +136,14 @@ export default function HomePage() {
                     console.log('THIS IS OUR audioURL:', audioURL)
 
                     // Code to download the blob as an MP3 file and see if it works
-                    const a = document.createElement("a");
-                    document.body.appendChild(a);
-                    a.style = "display: none";
-                    a.href = audioURL;
-                    a.download = 'test.mp3';
-                    a.click();
+                    // const a = document.createElement("a");
+                    // document.body.appendChild(a);
+                    // a.style = "display: none";
+                    // a.href = audioURL;
+                    // a.download = 'test.mp3';
+                    // a.click();
+
+                    // not needed and was actually causing the audio to not play
                     // window.URL.revokeObjectURL(audioURL);
 
                     // Wait for the audio to load metadata before playing
