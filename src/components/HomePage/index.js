@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import SpeechToText from '../SpeechToText';
 import Navigation from '../Navigation';
 import Footer from '../Footer';
 
@@ -228,6 +229,7 @@ export default function HomePage() {
                             <button className='send-button' type="submit">Send</button>
                         </div>
                     </form>
+                    <SpeechToText />
                     <button className='toggle-music-button' onClick={toggleMusic}>
                         {isMusicPlaying ? 'Pause Music' : 'Play Music'}
                     </button>
@@ -257,6 +259,7 @@ export default function HomePage() {
                 </div>
             </div>
             <Footer />
+
         </>
     );
 }

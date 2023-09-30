@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import OpenAI from 'openai';
 import axios from 'axios';
+import FormData from 'form-data';
 import fs from 'fs';
 
 dotenv.config();
@@ -26,39 +27,44 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-// app.post('/api/completion', async (req, res) => {
-//     const messages = req.body.messages;
+app.post('/api/transcribe', async (req, res) => {
+    try {
+        // 1. Receive the audio file from the frontend (likely as a Blob or Buffer)
 
-//     console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
+        // 2. Create FormData object and append the audio Blob/Buffer and other required fields
+        const formData = new FormData();
+        formData.append('file', req.body.audioBlob);
+        formData.append('model', 'whisper-1');
 
-//     if (!messages || !Array.isArray(messages) || messages.length === 0) {
-//         res.status(400).json({ error: "'messages' is a required property and should be a non-empty array" });
-//         return;
-//     }
+        // 3. Make the POST request to OpenAI's transcription API
+        const openaiResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', formData, {
+            method: 'POST',
+            headers: {
+                // ...formData.getHeaders(),
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+            },
+            body: formData
+        });
 
-//     try {
-//         const completion = await openai.chat.completions.create({
-//             model: "gpt-3.5-turbo",
-//             messages: messages,
-//             max_tokens: 60
-//         });
+        const openaiData = await openaiResponse.json();
+        console.log('THIS IS OUR OPENAI DATA:', openaiData);
+        console.log('THIS IS OUR OPENAI DATA TEXT:', openaiData.text);
 
-//         console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
+        // 4. Send the transcribed text back to the frontend
+        res.json({
+            transcribedText: openaiData.text
+        });
 
-//         // res.json(completion.choices[0]);
-//         const assistantMessageContent = completion.choices[0].message.content;
-//         res.json({ text: assistantMessageContent });
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({ error: 'Something went wrong' });
-//     }
-// });
-
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: 'Something went wrong' });
+    }
+});
 
 app.post('/api/completion', async (req, res) => {
     const messages = req.body.messages;
 
-    console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
+    // console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
         res.status(400).json({ error: "'messages' is a required property and should be a non-empty array" });
@@ -72,10 +78,10 @@ app.post('/api/completion', async (req, res) => {
             max_tokens: 100
         });
 
-        console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
+        // console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
 
         const assistantMessageContent = completion.choices[0].message.content;
-        console.log('THIS IS OUR assistantMessageContent:', assistantMessageContent);
+        // console.log('THIS IS OUR assistantMessageContent:', assistantMessageContent);
 
         // Call ElevenLabs API
         const headers = {
@@ -119,20 +125,20 @@ app.post('/api/completion', async (req, res) => {
 
         // console.log('THIS IS OUR elevenResponse:', elevenResponse);
         // console.log('THIS IS OUR ELEVEN DATA', elevenResponse.data)
-        console.log('Type of elevenResponse.data:', typeof elevenResponse.data);
-        console.log('eleven labs data slice', elevenResponse.data.slice(0, 100));
-        console.log('Eleven Response Headers:', elevenResponse.headers);
+        // console.log('Type of elevenResponse.data:', typeof elevenResponse.data);
+        // console.log('eleven labs data slice', elevenResponse.data.slice(0, 100));
+        // console.log('Eleven Response Headers:', elevenResponse.headers);
 
 
         // Respond to frontend
         const base64AudioData = Buffer.from(elevenResponse.data, 'binary').toString('base64');
 
         // Check if base64AudioData is actually valid base64
-        if (isValidBase64(base64AudioData)) {
-            console.log("This is a valid base64 string.");
-        } else {
-            console.log("This is NOT a valid base64 string.");
-        }
+        // if (isValidBase64(base64AudioData)) {
+        //     console.log("This is a valid base64 string.");
+        // } else {
+        //     console.log("This is NOT a valid base64 string.");
+        // }
 
         res.json({
             text: assistantMessageContent,
@@ -146,42 +152,41 @@ app.post('/api/completion', async (req, res) => {
     }
 });
 
+// ====================================================================================================
+//old completion route before implementing eleven labs
+
+// app.post('/api/completion', async (req, res) => {
+//     const messages = req.body.messages;
+
+//     console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
+
+//     if (!messages || !Array.isArray(messages) || messages.length === 0) {
+//         res.status(400).json({ error: "'messages' is a required property and should be a non-empty array" });
+//         return;
+//     }
+
+//     try {
+//         const completion = await openai.chat.completions.create({
+//             model: "gpt-3.5-turbo",
+//             messages: messages,
+//             max_tokens: 60
+//         });
+
+//         console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
+
+//         // res.json(completion.choices[0]);
+//         const assistantMessageContent = completion.choices[0].message.content;
+//         res.json({ text: assistantMessageContent });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ error: 'Something went wrong' });
+//     }
+// });
+
+// ====================================================================================================
+//original route to test eleven labs api
+
 // experimenting on basic eleven post request
-app.post('/api/text-to-speech', async (req, res) => {
-    const textData = req.body.textData;
-    const headers = {
-        'xi-api-key': process.env.ELEVEN_API_KEY,
-        'Content-Type': 'application/json'
-    };
-
-    const data = {
-        text: textData,
-        // model_id: "eleven_monolingual_v1",
-        model_id: "eleven_multilingual_v2",
-        voice_settings: {
-            stability: 0,
-            similarity_boost: 0,
-            style: 0,
-            use_speaker_boost: true
-        }
-    };
-
-    try {
-        const response = await axios.post(
-            'https://api.elevenlabs.io/v1/text-to-speech/QXfxCfBzNjKSfjG6OB75/stream',
-            data,
-            { headers }
-        );
-        console.log(response);
-        // You'll likely want to do something with the response here, like sending the audio back to the client
-        res.status(200).json(response.data);
-    } catch (error) {
-        console.error(JSON.stringify(error, null, 2));
-        res.status(500).json({ error: 'Something went wrong' });
-    }
-});
-
-
 // app.post('/api/text-to-speech', async (req, res) => {
 //     const textData = req.body.textData;
 //     const headers = {
@@ -216,9 +221,10 @@ app.post('/api/text-to-speech', async (req, res) => {
 //     }
 // });
 
+// ====================================================================================================
 // pseudocode breakdown of what is happening
-// import required libraries and modules
 
+// import required libraries and modules
 // 1. Import required libraries and modules
 //    - dotenv for environment variables
 //    - cors for cross-origin support
