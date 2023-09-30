@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+import Navigation from '../Navigation';
+import Footer from '../Footer';
+
 import starryMountains from '../../assets/videos/starry-mountains.mp4';
 import backgroundMusic from '../../assets/music/OG-slowed.mp3';
 // import backgroundMusic from '../../assets/music/OG-basic-piano.mp3';
@@ -22,6 +25,13 @@ export default function HomePage() {
     };
 
     const audioRef = useRef(null); // Ref to the audio element
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.playbackRate = 0.5; // Slow down by half
+        }
+    }, []);
 
     // Toggle function for background music
     const toggleMusic = () => {
@@ -173,62 +183,67 @@ export default function HomePage() {
 
     return (
         <>
-            <audio ref={audioRef} loop>
-                <source src={backgroundMusic} type="audio/mp3" />
-            </audio>
-            <audio ref={voiceAssistantAudioRef}></audio>
-            <video className='background-video' autoPlay loop muted>
-                <source src={starryMountains} type='video/mp4' />
-                Your browser does not support the video tag.
-            </video>
+            <Navigation />
+            <div>
 
-            <div className='home-container'>
-                <h1>How can we help you?</h1>
-                {/* need to make it distinguishable who the message is coming from. if it is me or the assistant */}
-                <div className='messages-container'>
-                    {messages.map((msg, i) => (
-                        <div className='individual-message' key={i}>
-                            <p className='message'>{msg.content}</p>
-                            <div className='divider-line' />
-                        </div>
-                    ))}
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div className='input-section'>
-                        <textarea
-                            className='input-field'
-                            type="text"
-                            value={input}
-                            // onChange={e => setInput(e.target.value)}
-                            onChange={handleInput}
-                        />
-                        <button className='send-button' type="submit">Send</button>
+                <audio ref={audioRef} loop>
+                    <source src={backgroundMusic} type="audio/mp3" />
+                </audio>
+                <audio ref={voiceAssistantAudioRef}></audio>
+                <video className='background-video' ref={videoRef} autoPlay loop muted>
+                    <source src={starryMountains} type='video/mp4' />
+                    Your browser does not support the video tag.
+                </video>
+
+                <div className='home-container'>
+                    <h1>How can we help you?</h1>
+                    {/* need to make it distinguishable who the message is coming from. if it is me or the assistant */}
+                    <div className='messages-container'>
+                        {messages.map((msg, i) => (
+                            <div className='individual-message' key={i}>
+                                <p className='message'>{msg.content}</p>
+                                <div className='divider-line' />
+                            </div>
+                        ))}
                     </div>
-                </form>
-                <button className='toggle-music-button' onClick={toggleMusic}>
-                    {isMusicPlaying ? 'Pause Music' : 'Play Music'}
-                </button>
-                <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value={volume}
-                    onChange={handleVolumeChange}
-                />
+                    <form onSubmit={handleSubmit}>
+                        <div className='input-section'>
+                            <textarea
+                                className='input-field'
+                                type="text"
+                                value={input}
+                                // onChange={e => setInput(e.target.value)}
+                                onChange={handleInput}
+                            />
+                            <button className='send-button' type="submit">Send</button>
+                        </div>
+                    </form>
+                    <button className='toggle-music-button' onClick={toggleMusic}>
+                        {isMusicPlaying ? 'Pause Music' : 'Play Music'}
+                    </button>
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={volume}
+                        onChange={handleVolumeChange}
+                    />
 
-                <button onClick={toggleVoiceAssistant}>
-                    {isVoiceAssistantEnabled ? 'Disable Voice Assistant' : 'Enable Voice Assistant'}
-                </button>
-                <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value={voiceAssistantVolume}
-                    onChange={handleVoiceAssistantVolumeChange}
-                />
+                    <button onClick={toggleVoiceAssistant}>
+                        {isVoiceAssistantEnabled ? 'Disable Voice Assistant' : 'Enable Voice Assistant'}
+                    </button>
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={voiceAssistantVolume}
+                        onChange={handleVoiceAssistantVolumeChange}
+                    />
+                </div>
             </div>
+            <Footer />
         </>
     );
 }
