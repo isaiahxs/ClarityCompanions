@@ -7,23 +7,23 @@ const SpeechToText = () => {
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [audioChunks, setAudioChunks] = useState([]);
 
-    const sendAudioToServer = async (audioBlob) => {
-        const formData = new FormData();
-        formData.append('audioBlob', audioBlob);
+    // const sendAudioToServer = async (audioBlob) => {
+    //     const formData = new FormData();
+    //     formData.append('audioBlob', audioBlob);
 
-        try {
-            const response = await axios.post('http://localhost:3001/api/transcribe', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+    //     try {
+    //         const response = await axios.post('http://localhost:3001/api/transcribe', formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data',
+    //             },
+    //         });
 
-            // Handle the response, e.g., update your state with the transcribed text
-            console.log(response.data.transcribedText);
-        } catch (error) {
-            console.error("Error sending audio data:", error);
-        }
-    };
+    //         // Handle the response, e.g., update your state with the transcribed text
+    //         console.log(response.data.transcribedText);
+    //     } catch (error) {
+    //         console.error("Error sending audio data:", error);
+    //     }
+    // };
 
     const startRecording = () => {
         navigator.mediaDevices.getUserMedia({ audio: true })

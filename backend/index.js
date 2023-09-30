@@ -4,6 +4,7 @@ import express from 'express';
 import OpenAI from 'openai';
 import axios from 'axios';
 import FormData from 'form-data';
+import multer from 'multer';
 import fs from 'fs';
 
 dotenv.config();
@@ -27,39 +28,110 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-app.post('/api/transcribe', async (req, res) => {
-    try {
-        // 1. Receive the audio file from the frontend (likely as a Blob or Buffer)
+//middleware for audio types
+// app.use(express.raw({ type: 'audio/*', limit: '50mb' }));
 
-        // 2. Create FormData object and append the audio Blob/Buffer and other required fields
+const upload = multer({ dest: 'uploads/' });
+
+app.post('/api/test', upload.single('file'), (req, res) => {
+    console.log('File:', req.file);
+    console.log('Body:', req.body);
+    res.send('Check the console');
+});
+
+// app.post('/api/test', (req, res) => {
+//     console.log('Body:', req.body);
+//     console.log('Type:', typeof req.body);
+//     res.send('Check the console');
+// });
+
+app.post('/api/transcribe', upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file || req.file.size === 0) {
+            return res.status(400).json({ error: 'No audio file provided' });
+        }
+
+        // const fileStream = fs.createReadStream(req.file.path);
+        // console.log('File Stream:', fileStream)
+
+        const fileBuffer = fs.readFileSync(req.file.path);
+
         const formData = new FormData();
-        formData.append('file', req.body.audioBlob);
+        // formData.append('file', fileStream);
+        formData.append('file', fileBuffer, { filename: 'myfile.wav' });
+
         formData.append('model', 'whisper-1');
 
-        // 3. Make the POST request to OpenAI's transcription API
-        const openaiResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', formData, {
-            method: 'POST',
-            headers: {
-                // ...formData.getHeaders(),
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-            },
-            body: formData
+        const headers = {
+            ...formData.getHeaders(),
+            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+        };
+
+        const openaiResponse = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, { headers });
+
+        // console.log('THIS IS OUR OPENAI DATA:', openaiResponse.data);
+        // console.log('THIS IS OUR OPENAI DATA TEXT:', openaiResponse.data.text);
+
+        // const openaiData = await openaiResponse.json();
+        // console.log('THIS IS OUR OPENAI DATA:', openaiData);
+        // console.log('THIS IS OUR OPENAI DATA TEXT:', openaiData.text);
+
+        // Optional: Remove the temporary file
+        fs.unlink(req.file.path, (err) => {
+            if (err) console.error("Couldn't delete file:", err);
         });
 
-        const openaiData = await openaiResponse.json();
-        console.log('THIS IS OUR OPENAI DATA:', openaiData);
-        console.log('THIS IS OUR OPENAI DATA TEXT:', openaiData.text);
-
-        // 4. Send the transcribed text back to the frontend
         res.json({
-            transcribedText: openaiData.text
+            transcribedText: openaiResponse.data.text
         });
 
     } catch (error) {
         console.error("Error:", error);
+        if (error.response) {
+            console.error("Response data:", error.response.data);
+        }
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
+
+// app.post('/api/transcribe', async (req, res) => {
+//     try {
+//         // 1. Receive the audio file from the frontend (likely as a Blob or Buffer)
+//         console.log('Audio Blob:', req.body.audioBlob); // Debug line
+
+//         if (!req.body.audioBlob) {
+//             return res.status(400).json({ error: 'No audio blob provided' });
+//         }
+
+//         // 2. Create FormData object and append the audio Blob/Buffer and other required fields
+//         const formData = new FormData();
+//         formData.append('file', req.body.audioBlob);
+//         formData.append('model', 'whisper-1');
+
+//         // 3. Make the POST request to OpenAI's transcription API
+//         const openaiResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+//             method: 'POST',
+//             headers: {
+//                 ...formData.getHeaders(),
+//                 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+//             },
+//             body: formData
+//         });
+
+//         const openaiData = await openaiResponse.json();
+//         console.log('THIS IS OUR OPENAI DATA:', openaiData);
+//         console.log('THIS IS OUR OPENAI DATA TEXT:', openaiData.text);
+
+//         // 4. Send the transcribed text back to the frontend
+//         res.json({
+//             transcribedText: openaiData.text
+//         });
+
+//     } catch (error) {
+//         console.error("Error:", error);
+//         res.status(500).json({ error: 'Something went wrong' });
+//     }
+// });
 
 app.post('/api/completion', async (req, res) => {
     const messages = req.body.messages;
