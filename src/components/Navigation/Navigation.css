@@ -9,8 +9,8 @@
     transition: transform 0.7s ease;
     position: fixed;
     z-index: 15;
-    /* background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(20px); */
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
 }
 
 .hamburger-menu {

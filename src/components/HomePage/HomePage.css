@@ -69,9 +69,14 @@
     resize: none;
 }
 
-/* .toggle-music-button {
+.toggle-music-button {
     width: 130px;
-} */
+}
+
+.toggle-va-button {
+    width: 190px;
+    height: auto;
+}
 
 .send-button {
     /* cursor: pointer; */

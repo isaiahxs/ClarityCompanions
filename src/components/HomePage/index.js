@@ -12,6 +12,7 @@ import './HomePage.css';
 export default function HomePage() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+    const [lastAudioURL, setLastAudioURL] = useState(null);  // New State
 
     const [isMusicPlaying, setIsMusicPlaying] = useState(false); // State to toggle music
     const [volume, setVolume] = useState(0.5); // Initial volume set to 50%
@@ -142,8 +143,9 @@ export default function HomePage() {
 
                     // Create an object URL from the Blob
                     const audioURL = URL.createObjectURL(audioBlob);
-
                     console.log('THIS IS OUR audioURL:', audioURL)
+
+                    setLastAudioURL(audioURL);  // New Line
 
                     // Code to download the blob as an MP3 file and see if it works
                     // const a = document.createElement("a");
@@ -180,6 +182,14 @@ export default function HomePage() {
         }
     };
 
+    const replayAudio = () => {
+        if (lastAudioURL) {
+            voiceAssistantAudioRef.current.src = lastAudioURL;
+            voiceAssistantAudioRef.current.play().catch(e => console.error('playback failed', e));
+        } else {
+            console.log("No audio to replay");
+        }
+    };
 
     return (
         <>
@@ -230,7 +240,7 @@ export default function HomePage() {
                         onChange={handleVolumeChange}
                     />
 
-                    <button onClick={toggleVoiceAssistant}>
+                    <button className='toggle-va-button' onClick={toggleVoiceAssistant}>
                         {isVoiceAssistantEnabled ? 'Disable Voice Assistant' : 'Enable Voice Assistant'}
                     </button>
                     <input
@@ -241,6 +251,9 @@ export default function HomePage() {
                         value={voiceAssistantVolume}
                         onChange={handleVoiceAssistantVolumeChange}
                     />
+                    <button className='replay-audio-button' onClick={replayAudio}>
+                        Play Again
+                    </button>
                 </div>
             </div>
             <Footer />
