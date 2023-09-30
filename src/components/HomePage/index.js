@@ -15,7 +15,7 @@ export default function HomePage() {
     const [lastAudioURL, setLastAudioURL] = useState(null);  // New State
 
     const [isMusicPlaying, setIsMusicPlaying] = useState(false); // State to toggle music
-    const [volume, setVolume] = useState(0.5); // Initial volume set to 50%
+    const [volume, setVolume] = useState(0.20); // Initial volume set to 50%
 
     const [isVoiceAssistantEnabled, setIsVoiceAssistantEnabled] = useState(false);
     const voiceAssistantAudioRef = useRef(null); // Ref to the voice assistant audio element

@@ -10,7 +10,7 @@
     position: fixed;
     z-index: 15;
     background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(20px);
+    /* backdrop-filter: blur(20px); */
 }
 
 .hamburger-menu {
@@ -18,10 +18,11 @@
     justify-content: center;
     align-items: center;
     border: none;
+    background: none;
 }
 
 .hamburger-menu:hover {
-    background-color: black;
+    /* background-color: black; */
 }
 
 .nav-name {
