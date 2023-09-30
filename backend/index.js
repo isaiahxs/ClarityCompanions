@@ -36,23 +36,34 @@ app.post('/api/test', upload.single('file'), (req, res) => {
     res.send('Check the console');
 });
 
+// Define an async POST endpoint
 app.post('/api/transcribe', upload.single('file'), async (req, res) => {
+    console.log("HITTTT /api/transcribe");
+
+    // Use 'upload.single('file')' middleware to handle single file upload
+
+    // Begin try-catch for error handling
     try {
         if (!req.file || req.file.size === 0) {
+            console.error("No audio file provided or file is empty.");
             return res.status(400).json({ error: 'No audio file provided' });
         }
 
-        // const fileStream = fs.createReadStream(req.file.path);
-        // console.log('File Stream:', fileStream)
+        console.log("Received File:", req.file);
 
+        // Read the uploaded audio file into a buffer using 'fs.readFileSync()'
         const fileBuffer = fs.readFileSync(req.file.path);
 
+        // Initialize a new FormData object
         const formData = new FormData();
-        // formData.append('file', fileStream);
+
+        // Append the file buffer to the FormData object with the filename 'myfile.wav'
         formData.append('file', fileBuffer, { filename: 'myfile.wav' });
 
+        // Append 'model' as 'whisper-1' to the FormData object for OpenAI API request
         formData.append('model', 'whisper-1');
 
+        // Create headers object, adding FormData's headers and OpenAI API Authorization
         const headers = {
             ...formData.getHeaders(),
             'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
@@ -60,18 +71,14 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
 
         const openaiResponse = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, { headers });
 
-        // console.log('THIS IS OUR OPENAI DATA:', openaiResponse.data);
-        // console.log('THIS IS OUR OPENAI DATA TEXT:', openaiResponse.data.text);
-
-        // const openaiData = await openaiResponse.json();
-        // console.log('THIS IS OUR OPENAI DATA:', openaiData);
-        // console.log('THIS IS OUR OPENAI DATA TEXT:', openaiData.text);
-
         // Optional: Remove the temporary file
         fs.unlink(req.file.path, (err) => {
             if (err) console.error("Couldn't delete file:", err);
         });
 
+        console.log("Transcribed Text: ", openaiResponse.data.text);
+
+        // Send the response containing the transcribed text from OpenAI API
         res.json({
             transcribedText: openaiResponse.data.text
         });
@@ -174,6 +181,10 @@ app.post('/api/completion', async (req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Something went wrong' });
     }
+});
+
+app.all('*', (req, res) => {
+    console.log(`Unmatched route: ${req.method} ${req.path}`);
 });
 
 // ====================================================================================================
