@@ -42,7 +42,7 @@ const SpeechToText = () => {
                     console.log("Data available, Size:", event.data.size);
 
 
-                    // audioChunks.push(event.data);
+                    audioChunks.push(event.data);
                     setAudioChunks((prevAudioChunks) => [...prevAudioChunks, event.data]);
 
                 });
