@@ -28,9 +28,6 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-//middleware for audio types
-// app.use(express.raw({ type: 'audio/*', limit: '50mb' }));
-
 const upload = multer({ dest: 'uploads/' });
 
 app.post('/api/test', upload.single('file'), (req, res) => {
@@ -38,12 +35,6 @@ app.post('/api/test', upload.single('file'), (req, res) => {
     console.log('Body:', req.body);
     res.send('Check the console');
 });
-
-// app.post('/api/test', (req, res) => {
-//     console.log('Body:', req.body);
-//     console.log('Type:', typeof req.body);
-//     res.send('Check the console');
-// });
 
 app.post('/api/transcribe', upload.single('file'), async (req, res) => {
     try {
@@ -93,45 +84,6 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
-
-// app.post('/api/transcribe', async (req, res) => {
-//     try {
-//         // 1. Receive the audio file from the frontend (likely as a Blob or Buffer)
-//         console.log('Audio Blob:', req.body.audioBlob); // Debug line
-
-//         if (!req.body.audioBlob) {
-//             return res.status(400).json({ error: 'No audio blob provided' });
-//         }
-
-//         // 2. Create FormData object and append the audio Blob/Buffer and other required fields
-//         const formData = new FormData();
-//         formData.append('file', req.body.audioBlob);
-//         formData.append('model', 'whisper-1');
-
-//         // 3. Make the POST request to OpenAI's transcription API
-//         const openaiResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-//             method: 'POST',
-//             headers: {
-//                 ...formData.getHeaders(),
-//                 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-//             },
-//             body: formData
-//         });
-
-//         const openaiData = await openaiResponse.json();
-//         console.log('THIS IS OUR OPENAI DATA:', openaiData);
-//         console.log('THIS IS OUR OPENAI DATA TEXT:', openaiData.text);
-
-//         // 4. Send the transcribed text back to the frontend
-//         res.json({
-//             transcribedText: openaiData.text
-//         });
-
-//     } catch (error) {
-//         console.error("Error:", error);
-//         res.status(500).json({ error: 'Something went wrong' });
-//     }
-// });
 
 app.post('/api/completion', async (req, res) => {
     const messages = req.body.messages;
