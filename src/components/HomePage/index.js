@@ -205,7 +205,6 @@ export default function HomePage() {
         <>
             <Navigation />
             <div>
-
                 <audio ref={audioRef} loop>
                     <source src={backgroundMusic} type="audio/mp3" />
                 </audio>
@@ -281,7 +280,6 @@ export default function HomePage() {
                 </div>
             </div>
             <Footer />
-
         </>
     );
 }

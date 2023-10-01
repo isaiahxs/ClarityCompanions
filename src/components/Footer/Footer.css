@@ -2,8 +2,11 @@
     width: 100%;
     /* z-index: 15 !important; */
     /* background-color: black; */
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(20px);
+    background-color: rgba(0, 0, 0, 0.9);
+    /* backdrop-filter: blur(20px); */
+    /* position: fixed; */
+    /* margin-top: 50px !important; */
+    bottom: 0;
 }
 
 .footer-section {

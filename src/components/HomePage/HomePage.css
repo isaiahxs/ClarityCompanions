@@ -16,10 +16,10 @@
     margin: auto;
     /* margin-left: 20px; */
     /* margin-right: 20px; */
-    margin-top: 100px;
+    margin-top: 146px;
     margin-bottom: 100px;
     border-radius: 20px;
-    max-width: 900px;
+    max-width: 700px;
     padding: 50px;
     background-color: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(20px);
@@ -31,6 +31,8 @@
     color: black;
     font-size: 3.3rem;
     font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .messages-container {
@@ -72,10 +74,10 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    height: 50px;
     max-height: 200px !important;
-    min-height: 50px;
-    max-width: 600px !important;
-    height: auto;
+    /* min-height: 50px; */
+    /* max-width: 500px; */
     resize: none;
     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 1);
     font-size: 1.1rem;
@@ -103,6 +105,10 @@
 .download-button,
 .replay-audio-button {
     width: 100px;
+}
+
+.send-button {
+    margin-left: 10px;
 }
 
 .sounds-container {
