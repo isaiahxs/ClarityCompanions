@@ -152,7 +152,7 @@ app.post('/api/completion', async (req, res) => {
         )
 
         // TO MAKE SURE WE ARE GETTING THE RIGHT DATA AND IT IS READABLE
-        fs.writeFileSync('directOutput.mp3', elevenResponse.data, 'binary');
+        // fs.writeFileSync('directOutput.mp3', elevenResponse.data, 'binary');
 
         // console.log('THIS IS OUR elevenResponse:', elevenResponse);
         // console.log('THIS IS OUR ELEVEN DATA', elevenResponse.data)
