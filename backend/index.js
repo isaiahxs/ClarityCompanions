@@ -72,8 +72,19 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
         const openaiResponse = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, { headers });
 
         // Optional: Remove the temporary file
-        fs.unlink(req.file.path, (err) => {
-            if (err) console.error("Couldn't delete file:", err);
+        // fs.unlink(req.file.path, (err) => {
+        //     if (err) console.error("Couldn't delete file:", err);
+        // });
+
+        await new Promise((resolve, reject) => {
+            fs.unlink(req.file.path, (err) => {
+                if (err) {
+                    console.error("Couldn't delete file:", err);
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
         });
 
         console.log("Transcribed Text: ", openaiResponse.data.text);
