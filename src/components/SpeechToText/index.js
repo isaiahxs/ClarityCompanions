@@ -99,10 +99,14 @@ const SpeechToText = ({ setTranscribedText }) => {
                 </div>
             </div>
             {audioData && (
-                <>
-                    <audio src={audioData} controls />
-                    <a href={audioData} download="recorded-audio.webm">Download</a>
-                </>
+                <div className='media-player-container'>
+                    <audio className='media-player' src={audioData} controls />
+                    {/* <a className='download-text' href={audioData} download="recorded-audio.webm">
+                        <button className='download-button'>
+                            Download
+                        </button>
+                    </a> */}
+                </div>
             )}
         </div>
     );

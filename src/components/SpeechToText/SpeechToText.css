@@ -16,3 +16,21 @@
 .stop-recording {
     width: 200px;
 }
+
+.media-player-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 300px; */
+    margin-bottom: 20px;
+}
+
+.media-player {
+    /* width: 200px; */
+    border-radius: 27px;
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 1);
+}
+
+.download-text {
+    margin-left: 10px;
+}

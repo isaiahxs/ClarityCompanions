@@ -1,7 +1,8 @@
 .footer-container {
     width: 100%;
     /* z-index: 15 !important; */
-    background-color: rgba(0, 0, 0, 0.3);
+    /* background-color: black; */
+    background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(20px);
 }
 
@@ -17,6 +18,10 @@
     /* margin-left: 0px !important; */
     /* margin-right: 0px !important; */
     margin: auto;
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
 }
 
 .logo-section,
@@ -94,6 +99,7 @@
 .footer-icon-description {
     display: flex;
     margin: 0px 5px;
+    font-size: 1.3rem;
     /* align-items: start; */
 }
 
@@ -122,13 +128,13 @@
 .credits-created-by {
     margin-bottom: 0px;
     margin-top: 0px;
-    font-size: 1.0rem;
+    font-size: 1.3rem;
 }
 
 .isaiah {
     color: white;
     margin-left: 5px;
-    font-size: 1.0rem;
+    font-size: 1.3rem;
 }
 
 .isaiah:hover {

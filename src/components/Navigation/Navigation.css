@@ -9,8 +9,9 @@
     transition: transform 0.7s ease;
     position: fixed;
     z-index: 15;
-    background-color: rgba(0, 0, 0, 0.3);
-    /* backdrop-filter: blur(20px); */
+    /* background-color: black; */
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
 }
 
 .hamburger-menu {
@@ -85,10 +86,9 @@
     background: none;
     color: white;
     border: none;
-    /* font-weight: 500; */
     border: 2px solid white;
-    /* width: 210px !important; */
     font-size: 1.1rem;
+    padding: 8px 10px;
 }
 
 .nav-button.active {
@@ -99,9 +99,9 @@
 }
 
 .nav-button:hover {
-    /* background-color: white; */
+    background-color: white;
     /* background-color: #ffc800; */
-    /* color: #222222; */
+    color: #222222;
     font-weight: bold;
 }
 
@@ -204,8 +204,6 @@
     height: 530px;
     align-items: center;
 }
-
-
 
 .panel-logo {
     cursor: default !important;
