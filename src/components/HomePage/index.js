@@ -14,6 +14,7 @@ export default function HomePage() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [lastAudioURL, setLastAudioURL] = useState(null);  // New State
+    const [transcribedText, setTranscribedText] = useState("");
 
     const [isMusicPlaying, setIsMusicPlaying] = useState(false); // State to toggle music
     const [volume, setVolume] = useState(0.20); // Initial volume set to 50%
@@ -70,6 +71,7 @@ export default function HomePage() {
     const handleInput = (e) => {
         const textarea = e.target;
         setInput(textarea.value);
+        setTranscribedText(textarea.value);
         // Reset the height to "auto"
         textarea.style.height = "auto";
         // Set the height to scroll height + some padding (e.g., 4px)
@@ -222,14 +224,14 @@ export default function HomePage() {
                             <textarea
                                 className='input-field'
                                 type="text"
-                                value={input}
+                                value={transcribedText}
                                 // onChange={e => setInput(e.target.value)}
                                 onChange={handleInput}
                             />
                             <button className='send-button' type="submit">Send</button>
                         </div>
                     </form>
-                    <SpeechToText />
+                    <SpeechToText setTranscribedText={setTranscribedText} />
                     <button className='toggle-music-button' onClick={toggleMusic}>
                         {isMusicPlaying ? 'Pause Music' : 'Play Music'}
                     </button>

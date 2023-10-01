@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const SpeechToText = () => {
+const SpeechToText = ({ setTranscribedText }) => {
     const [recording, setRecording] = useState(false);
     const [audioData, setAudioData] = useState(null);
     const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -18,6 +18,10 @@ const SpeechToText = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+
+            if (response.data.transcribedText) {
+                setTranscribedText(response.data.transcribedText);
+            }
 
             // Handle the response, e.g., update your state with the transcribed text
             console.log("transcribed text", response.data.transcribedText);
