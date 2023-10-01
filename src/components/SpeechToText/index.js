@@ -33,14 +33,18 @@ const SpeechToText = () => {
                 setMediaRecorder(newMediaRecorder);
                 newMediaRecorder.start();
 
-                console.log("MediaRecorder mimeType:", newMediaRecorder.mimeType);
+                let localAudioChunks = [];  // Using a local variable for immediate updates
 
-                const audioChunks = [];
+
+                // console.log("MediaRecorder mimeType:", newMediaRecorder.mimeType);
+
+                // const audioChunks = [];
 
                 newMediaRecorder.addEventListener("dataavailable", (event) => {
                     // console.log("Data available:", event);
                     console.log("Data available, Size:", event.data.size);
 
+                    localAudioChunks.push(event.data);
 
                     // audioChunks.push(event.data);
                     setAudioChunks((prevAudioChunks) => [...prevAudioChunks, event.data]);
@@ -52,7 +56,12 @@ const SpeechToText = () => {
 
                 newMediaRecorder.addEventListener("stop", () => {
                     console.log("Recording stopped.");
-                    const audioBlob = new Blob(audioChunks);
+                    // const audioBlob = new Blob(audioChunks);
+                    // const audioUrl = URL.createObjectURL(audioBlob);
+                    // setAudioData(audioUrl);
+
+                    const audioBlob = new Blob(localAudioChunks, { type: 'audio/webm' });
+                    sendAudioToServer(audioBlob);
                     const audioUrl = URL.createObjectURL(audioBlob);
                     setAudioData(audioUrl);
                 });
