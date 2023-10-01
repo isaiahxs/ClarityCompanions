@@ -115,6 +115,7 @@ export default function Navigation() {
 
                 {isNavOpen && <div className='backdrop'></div>}
 
+                {/* <div className='nav-panel-parent'> */}
                 <div ref={navRef} className={`nav-panel ${isNavOpen ? 'nav-open' : ''}`}>
                     <button className='x-button' onClick={toggleNavOpen}>X</button>
 
@@ -178,6 +179,7 @@ export default function Navigation() {
                         </div>
                     </div>
                 </div>
+                {/* </div> */}
             </div>
         </nav>
     )
