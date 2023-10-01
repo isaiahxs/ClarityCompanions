@@ -41,6 +41,7 @@
 
 
 .footer-options-container {
+    width: 260px;
     /* margin-right: 10px; */
 }
 
@@ -154,11 +155,13 @@
     .footer-heading {
         display: flex;
         justify-content: center;
+        margin-bottom: 20px;
     }
 
     .footer-options-container {
-        margin-top: 10px;
-        margin-bottom: 0px;
+        width: 360px;
+        margin-top: 20px;
+        margin-bottom: 20px;
         margin-right: 0px;
     }
 

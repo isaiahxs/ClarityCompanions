@@ -4,6 +4,7 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
   font-family: 'Thasadith', sans-serif;
+  /* font-family: 'Quicksand', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -14,7 +15,7 @@ body {
 } */
 
 h1 {
-  font-size: 3rem;
+  /* font-size: 3rem; */
 }
 
 button {
@@ -26,6 +27,7 @@ button {
   padding: 8px 10px;
   font-size: 1.1rem;
   transition: 0.7s all;
+  /* font-family: 'Quicksand', sans-serif; */
   font-family: 'Thasadith', sans-serif;
   /* border: 1px solid black; */
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 1);
@@ -35,7 +37,7 @@ button {
 }
 
 button:hover {
-  background-color: #222222;
+  background-color: #1e1e1e;
   color: white;
   /* color: #222222; */
   /* font-weight: bold; */

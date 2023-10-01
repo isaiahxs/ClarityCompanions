@@ -216,7 +216,7 @@ export default function HomePage() {
                 </video>
 
                 <div className='home-container'>
-                    <h1>How can we help you?</h1>
+                    <h1 className='home-header'>How can we help you?</h1>
                     {/* need to make it distinguishable who the message is coming from. if it is me or the assistant */}
                     <div className='messages-container'>
                         {messages.map((msg, i) => (

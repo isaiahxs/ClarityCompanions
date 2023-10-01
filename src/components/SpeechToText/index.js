@@ -94,7 +94,10 @@ const SpeechToText = ({ setTranscribedText }) => {
         <div>
             <div className='recording-container'>
                 <div className='recording-buttons'>
-                    <button className='start-recording' onClick={startRecording}>Start Recording</button>
+                    {/* <button className='start-recording' onClick={startRecording}>Start Recording</button> */}
+                    <button className='start-recording' onClick={startRecording}>
+                        {recording ? "Recording..." : "Start Recording"}
+                    </button>
                     <button className='stop-recording' onClick={stopRecording}>Stop Recording</button>
                 </div>
             </div>

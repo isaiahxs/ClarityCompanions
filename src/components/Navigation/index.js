@@ -3,7 +3,7 @@ import { useLanguage } from '../../LanguageContext';
 import { englishContent, spanishContent } from './content';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/icons/healthy-brain.png';
-import hamburger from '../../assets/icons/hamburger.png';
+import hamburger from '../../assets/icons/white-hamburger.png';
 import './Navigation.css'
 
 export default function Navigation() {
@@ -108,9 +108,9 @@ export default function Navigation() {
                 </div>
 
                 <div className='nav-logo-container'>
-                    <button className='hamburger-menu' onClick={toggleNavOpen}>
-                        <img src={hamburger} className='small-logo' alt='Hamburger Menu' />
-                    </button>
+                    {/* <button className='hamburger-menu' onClick={toggleNavOpen}> */}
+                    <img src={hamburger} className='small-logo hamburger-menu' alt='Hamburger Menu' onClick={toggleNavOpen} />
+                    {/* </button> */}
                 </div>
 
                 {isNavOpen && <div className='backdrop'></div>}

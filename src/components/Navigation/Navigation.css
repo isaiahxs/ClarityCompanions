@@ -18,20 +18,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: none;
-    background: none;
+    height: 32px !important;
 }
 
 .hamburger-menu:hover {
-    /* background-color: black; */
+    background: none;
 }
 
 .nav-name {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
     color: white;
-    /* font-family: 'Vollkorn SC', serif; */
     text-align: center;
-    /* width: 250px; */
 }
 
 .panel-language-button,
