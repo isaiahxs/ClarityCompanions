@@ -95,7 +95,7 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
 app.post('/api/completion', async (req, res) => {
     const messages = req.body.messages;
 
-    // console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
+    console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
         res.status(400).json({ error: "'messages' is a required property and should be a non-empty array" });

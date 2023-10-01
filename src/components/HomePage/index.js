@@ -71,7 +71,12 @@ export default function HomePage() {
     const handleInput = (e) => {
         const textarea = e.target;
         setInput(textarea.value);
+        // console.log("Transcribed Text to be Sent:", transcribedText);
+
         setTranscribedText(textarea.value);
+        console.log("Transcribed Text to be Sent:", transcribedText);
+        console.log("Transcribed Text ASCII:", [...transcribedText].map(char => char.charCodeAt(0)));
+
         // Reset the height to "auto"
         textarea.style.height = "auto";
         // Set the height to scroll height + some padding (e.g., 4px)
@@ -93,8 +98,10 @@ export default function HomePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const sanitizedInput = transcribedText.trim(); // Here
+
         // Add user's message to chat log
-        const userMessage = { role: 'user', content: input };
+        const userMessage = { role: 'user', content: sanitizedInput };
         const updatedMessages = [...messages, userMessage];
 
         // Update the state here
@@ -107,7 +114,7 @@ export default function HomePage() {
             // console.log('THIS IS OUR RESPONSE DATA:', response.data);
             // console.log('THIS IS THE TYPE OF RESPONSE DATA', typeof response.data.audioData);
 
-            console.log('ORIGINAL BASE64:', response.data.audioData);
+            // console.log('ORIGINAL BASE64:', response.data.audioData);
 
             if (isValidBase64(response.data.audioData)) {
                 console.log("This is a valid base64 string.");
@@ -120,7 +127,7 @@ export default function HomePage() {
             const assistantMessageContent = response.data.text || response.data.content;
 
             const assistantMessage = { role: 'assistant', content: assistantMessageContent };
-            console.log('THIS IS OUR assistantMessage:', assistantMessage);
+            // console.log('THIS IS OUR assistantMessage:', assistantMessage);
 
             // Add assistant's message to chat log
             setMessages(prevMessages => [...prevMessages, assistantMessage]);
@@ -132,13 +139,13 @@ export default function HomePage() {
                     //---- converting base64 back to binary data (byte array), creating a blob from the byte array, creating an object url from the blob, setting the object url as the 'src' of the audio element and playing the audio
                     // Decode the base64 string into a byte array
                     const byteCharacters = atob(response.data.audioData);
-                    console.log('THIS IS OUR DECODED STRING:', byteCharacters)
+                    // console.log('THIS IS OUR DECODED STRING:', byteCharacters)
 
                     const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
                     console.log('THESE ARE OUR BYTE NUMBERS:', byteNumbers);
 
                     const byteArray = new Uint8Array(byteNumbers);
-                    console.log('THIS IS OUR BYTE ARRAY:', byteArray);
+                    // console.log('THIS IS OUR BYTE ARRAY:', byteArray);
 
                     // Convert the byte array to a Blob
                     const audioBlob = new Blob([byteArray], { type: 'audio/mp3' });
@@ -146,7 +153,7 @@ export default function HomePage() {
 
                     // Create an object URL from the Blob
                     const audioURL = URL.createObjectURL(audioBlob);
-                    console.log('THIS IS OUR audioURL:', audioURL)
+                    // console.log('THIS IS OUR audioURL:', audioURL)
 
                     setLastAudioURL(audioURL);  // New Line
 
