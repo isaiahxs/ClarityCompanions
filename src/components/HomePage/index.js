@@ -21,7 +21,7 @@ export default function HomePage() {
 
     const [isVoiceAssistantEnabled, setIsVoiceAssistantEnabled] = useState(false);
     const voiceAssistantAudioRef = useRef(null); // Ref to the voice assistant audio element
-    const [voiceAssistantVolume, setVoiceAssistantVolume] = useState(0.5); // Initial volume set to 50%
+    const [voiceAssistantVolume, setVoiceAssistantVolume] = useState(0.85); // Initial volume set to 50%
 
     const toggleVoiceAssistant = () => {
         setIsVoiceAssistantEnabled(!isVoiceAssistantEnabled);
@@ -226,7 +226,7 @@ export default function HomePage() {
                             </div>
                         ))}
                     </div>
-                    <form onSubmit={handleSubmit}>
+                    <form className='input-form' onSubmit={handleSubmit}>
                         <div className='input-section'>
                             <textarea
                                 className='input-field'
@@ -238,30 +238,43 @@ export default function HomePage() {
                             <button className='send-button' type="submit">Send</button>
                         </div>
                     </form>
-                    <SpeechToText setTranscribedText={setTranscribedText} />
-                    <button className='toggle-music-button' onClick={toggleMusic}>
-                        {isMusicPlaying ? 'Pause Music' : 'Play Music'}
-                    </button>
-                    <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.01"
-                        value={volume}
-                        onChange={handleVolumeChange}
-                    />
 
-                    <button className='toggle-va-button' onClick={toggleVoiceAssistant}>
-                        {isVoiceAssistantEnabled ? 'Disable Voice Assistant' : 'Enable Voice Assistant'}
-                    </button>
-                    <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.01"
-                        value={voiceAssistantVolume}
-                        onChange={handleVoiceAssistantVolumeChange}
-                    />
+                    <SpeechToText setTranscribedText={setTranscribedText} />
+
+                    <div className='sounds-container'>
+                        <div className='toggle-music-container'>
+                            <button className='toggle-music-button' onClick={toggleMusic}>
+                                {isMusicPlaying ? 'Pause Music' : 'Play Music'}
+                            </button>
+                            <input
+                                className='volume-slider'
+                                type="range"
+                                min="0"
+                                max="1"
+                                step="0.01"
+                                value={volume}
+                                onChange={handleVolumeChange}
+                            />
+                        </div>
+
+                        <div className='toggle-va-container'>
+                            <div className='toggle-va-container'>
+                                <button className='toggle-va-button' onClick={toggleVoiceAssistant}>
+                                    {isVoiceAssistantEnabled ? 'Disable Voice Assistant' : 'Enable Voice Assistant'}
+                                </button>
+                                <input
+                                    className='volume-slider'
+                                    type="range"
+                                    min="0"
+                                    max="1"
+                                    step="0.01"
+                                    value={voiceAssistantVolume}
+                                    onChange={handleVoiceAssistantVolumeChange}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
                     <button className='replay-audio-button' onClick={replayAudio}>
                         Play Again
                     </button>

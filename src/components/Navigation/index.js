@@ -120,34 +120,58 @@ export default function Navigation() {
 
                     <div className='panel-buttons'>
                         <div>
-                            <button className='nav-button panel-button' onClick={() => scrollToSection('food-menu')}>
-                                About
-                            </button>
+                            <a href="https://www.isaiahxs.com/" target='_blank' rel='noopener noreferrer'>
+                                <button className='nav-button panel-button'>
+                                    <div>
+                                        <p className='footer-icon-description'>
+                                            Portfolio
+                                        </p>
+                                    </div>
+                                </button>
+                            </a>
                         </div>
 
                         <div>
-                            <button className='nav-button panel-button' onClick={() => scrollToSection('drink-menu')}>
-                                GitHub
-                            </button>
+                            <a href='https://www.linkedin.com/in/isaiahxs/' target='_blank' rel='noopener noreferrer'>
+                                <button className='nav-button panel-button'>
+                                    <div>
+                                        <p className='footer-icon-description'>
+                                            LinkedIn
+                                        </p>
+                                    </div>
+                                </button>
+                            </a>
                         </div>
 
                         <div>
-                            <button className='nav-button panel-button' onClick={() => scrollToSection('reviews')}>
-                                LinkedIn
-                            </button>
+                            <a href='https://github.com/isaiahxs' target='_blank' rel='noopener noreferrer'>
+                                <button className='nav-button panel-button'>
+                                    <div >
+                                        <p className='footer-icon-description'>
+                                            GitHub
+                                        </p>
+                                    </div>
+                                </button>
+                            </a>
                         </div>
 
                         <div>
-                            <button className='nav-button panel-button' onClick={() => scrollToSection('footer')}>
-                                Portfolio
-                            </button>
+                            <a href='https://wellfound.com/u/isaiahxs' target='_blank' rel='noopener noreferrer'>
+                                <button className='nav-button panel-button'>
+                                    <div >
+                                        <p className='footer-icon-description'>
+                                            Wellfound
+                                        </p>
+                                    </div>
+                                </button>
+                            </a>
                         </div>
 
-                        <div>
+                        {/* <div>
                             <button className='language-toggle-button panel-language-button' onClick={toggleLanguage}>
                                 {currentLanguage === 'english' ? 'Español' : 'English'}
                             </button>
-                        </div>
+                        </div> */}
 
                         <div className='nav-logo-container'>
                             <img src={logo} className='big-logo panel-logo' alt="Clarity Companions" />

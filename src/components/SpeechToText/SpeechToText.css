@@ -1,0 +1,18 @@
+.recording-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.recording-buttons {
+    display: flex;
+    width: 450px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.start-recording,
+.stop-recording {
+    width: 200px;
+}

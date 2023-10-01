@@ -43,9 +43,9 @@ export default function Footer() {
                         </li>
                         <div className='footer-options'>
                             <li>
-                                <a href="https://www.google.com/maps/place/Sin+Fronteras/@38.9775203,-76.5394309,17z/data=!3m1!4b1!4m6!3m5!1s0x89b7f6ce8f43a82f:0x43022ee12cca4c62!8m2!3d38.9775162!4d-76.536856!16s%2Fg%2F1tpf80bs?entry=ttu" target='_blank' rel='noopener noreferrer'>
+                                <a href="https://www.isaiahxs.com/" target='_blank' rel='noopener noreferrer'>
                                     <div className='footer-icon-container'>
-                                        <img className='footer-icon GB-map-icon' alt='Map Pin Icon' />
+                                        {/* <img className='footer-icon GB-map-icon' alt='Map Pin Icon' /> */}
                                         <p className='footer-icon-description'>
                                             Portfolio
                                         </p>
@@ -53,9 +53,9 @@ export default function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href='tel:+14102660013'>
+                                <a href='https://www.linkedin.com/in/isaiahxs/' target='_blank' rel='noopener noreferrer'>
                                     <div className='footer-icon-container'>
-                                        <img className='footer-icon' alt='Phone Icon' />
+                                        {/* <img className='footer-icon' alt='Phone Icon' /> */}
                                         <p className='footer-icon-description'>
                                             LinkedIn
                                         </p>
@@ -63,22 +63,30 @@ export default function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <div className='footer-icon-container'>
-                                    <p className='footer-icon-description'>GitHub
-                                    </p>
-                                </div>
+                                <a href='https://github.com/isaiahxs' target='_blank' rel='noopener noreferrer'>
+                                    <div className='footer-icon-container'>
+                                        {/* <img className='footer-icon' alt='Phone Icon' /> */}
+                                        <p className='footer-icon-description'>
+                                            GitHub
+                                        </p>
+                                    </div>
+                                </a>
                             </li>
                             <li>
-                                <div className='footer-icon-container'>
-                                    <p className='footer-icon-description'>Wellfound
-                                    </p>
-                                </div>
+                                <a href='https://wellfound.com/u/isaiahxs' target='_blank' rel='noopener noreferrer'>
+                                    <div className='footer-icon-container'>
+                                        {/* <img className='footer-icon' alt='Phone Icon' /> */}
+                                        <p className='footer-icon-description'>
+                                            Wellfound
+                                        </p>
+                                    </div>
+                                </a>
                             </li>
                         </div>
                     </ul>
                 </section>
 
-                <section className='third-footer-section'>
+                {/* <section className='third-footer-section'>
                     <ul className='footer-options-container'>
                         <li className='footer-heading'>
                             Socials
@@ -95,7 +103,7 @@ export default function Footer() {
                             </li>
                         </div>
                     </ul>
-                </section>
+                </section> */}
 
             </div >
             <div className='credits-container'>

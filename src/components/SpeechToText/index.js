@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './SpeechToText.css'
 
 const SpeechToText = ({ setTranscribedText }) => {
     const [recording, setRecording] = useState(false);
@@ -91,8 +92,12 @@ const SpeechToText = ({ setTranscribedText }) => {
 
     return (
         <div>
-            <button onClick={startRecording}>Start Recording</button>
-            <button onClick={stopRecording}>Stop Recording</button>
+            <div className='recording-container'>
+                <div className='recording-buttons'>
+                    <button className='start-recording' onClick={startRecording}>Start Recording</button>
+                    <button className='stop-recording' onClick={stopRecording}>Stop Recording</button>
+                </div>
+            </div>
             {audioData && (
                 <>
                     <audio src={audioData} controls />
