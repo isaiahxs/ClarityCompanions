@@ -20,7 +20,7 @@ const SpeechToText = () => {
             });
 
             // Handle the response, e.g., update your state with the transcribed text
-            console.log(response.data.transcribedText);
+            console.log("transcribed text", response.data.transcribedText);
         } catch (error) {
             console.error("Error sending audio data:", error);
         }
@@ -45,6 +45,7 @@ const SpeechToText = () => {
                     console.log("Data available, Size:", event.data.size);
 
                     localAudioChunks.push(event.data);
+                    console.log('localAudioChunks', localAudioChunks);
 
                     // audioChunks.push(event.data);
                     setAudioChunks((prevAudioChunks) => [...prevAudioChunks, event.data]);
@@ -75,11 +76,12 @@ const SpeechToText = () => {
             mediaRecorder.stop();
             setRecording(false);
 
-            console.log("Audio Chunks:", audioChunks);
+            // console.log("Audio Chunks:", audioChunks);
 
             // Convert the audioChunks to a blob and send it to the backend
-            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            sendAudioToServer(audioBlob);
+            // this is if we want everything we've said
+            // const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            // sendAudioToServer(audioBlob);
         }
     };
 
