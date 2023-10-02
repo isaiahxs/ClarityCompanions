@@ -5,6 +5,15 @@ import Navigation from '../Navigation';
 import Footer from '../Footer';
 
 import starryMountains from '../../assets/videos/starry-mountains.mp4';
+import clouds from '../../assets/videos/clouds.mp4';
+import flowers from '../../assets/videos/flowers.mp4';
+import infinite from '../../assets/videos/infinite.mp4';
+import milky_way from '../../assets/videos/milky-way.mp4';
+import mountain from '../../assets/videos/mountain.mp4';
+import shoreline from '../../assets/videos/shoreline.mp4';
+import sunset from '../../assets/videos/sunset.mp4';
+import wisp from '../../assets/videos/wisp.mp4';
+
 import backgroundMusic from '../../assets/music/OG-slowed.mp3';
 // import backgroundMusic from '../../assets/music/OG-basic-piano.mp3';
 // import backgroundMusic from '../../assets/music/OG-rous-cover.mp3';
@@ -32,7 +41,7 @@ export default function HomePage() {
 
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.playbackRate = 0.5; // Slow down by half
+            videoRef.current.playbackRate = 0.75; // Slow down
         }
     }, []);
 
@@ -74,17 +83,18 @@ export default function HomePage() {
         // console.log("Transcribed Text to be Sent:", transcribedText);
 
         setTranscribedText(textarea.value);
-        console.log("Transcribed Text to be Sent:", transcribedText);
-        console.log("Transcribed Text ASCII:", [...transcribedText].map(char => char.charCodeAt(0)));
+        // console.log("Transcribed Text to be Sent:", transcribedText);
+        // console.log("Transcribed Text ASCII:", [...transcribedText].map(char => char.charCodeAt(0)));
 
         // Reset the height to "auto"
         textarea.style.height = "auto";
+
         // Set the height to scroll height + some padding (e.g., 4px)
-        if (textarea.scrollHeight <= 200) {
-            textarea.style.height = `${textarea.scrollHeight + 4}px`;
-        } else {
-            textarea.style.height = "200px";
-        }
+        // if (textarea.scrollHeight <= 200) {
+        //     textarea.style.height = `${textarea.scrollHeight + 4}px`;
+        // } else {
+        //     textarea.style.height = "200px";
+        // }
     };
 
     const isValidBase64 = (str) => {
@@ -201,6 +211,21 @@ export default function HomePage() {
         }
     };
 
+    const videos = [
+        starryMountains, //good
+        clouds, //good
+        flowers, //good
+        infinite, //good
+        milky_way, //good
+        mountain, //good
+        shoreline, //good
+        sunset, //good
+        wisp, //good
+    ];
+
+    const randomIndex = Math.floor(Math.random() * videos.length);
+    const selectedVideo = videos[randomIndex];
+
     return (
         <>
             <Navigation />
@@ -208,9 +233,16 @@ export default function HomePage() {
                 <audio ref={audioRef} loop>
                     <source src={backgroundMusic} type="audio/mp3" />
                 </audio>
+
                 <audio ref={voiceAssistantAudioRef}></audio>
-                <video className='background-video' ref={videoRef} autoPlay loop muted>
+
+                {/* <video className='background-video' ref={videoRef} autoPlay loop muted>
                     <source src={starryMountains} type='video/mp4' />
+                    Your browser does not support the video tag.
+                </video> */}
+
+                <video className='background-video' ref={videoRef} autoPlay loop muted>
+                    <source src={selectedVideo} type='video/mp4' />
                     Your browser does not support the video tag.
                 </video>
 
@@ -231,6 +263,7 @@ export default function HomePage() {
                                 className='input-field'
                                 type="text"
                                 value={transcribedText}
+                                placeholder='Type your message here...'
                                 // onChange={e => setInput(e.target.value)}
                                 onChange={handleInput}
                             />
