@@ -14,7 +14,8 @@ import shoreline from '../../assets/videos/shoreline.mp4';
 import sunset from '../../assets/videos/sunset.mp4';
 import wisp from '../../assets/videos/wisp.mp4';
 
-import backgroundMusic from '../../assets/music/OG-slowed.mp3';
+import backgroundMusic from '../../assets/music/OG.mp3';
+// import backgroundMusic from '../../assets/music/OG-slowed.mp3';
 // import backgroundMusic from '../../assets/music/OG-basic-piano.mp3';
 // import backgroundMusic from '../../assets/music/OG-rous-cover.mp3';
 import './HomePage.css';
@@ -26,7 +27,7 @@ export default function HomePage() {
     const [transcribedText, setTranscribedText] = useState("");
 
     const [isMusicPlaying, setIsMusicPlaying] = useState(false); // State to toggle music
-    const [volume, setVolume] = useState(0.20); // Initial volume set to 50%
+    const [volume, setVolume] = useState(0.20); // Initial volume
 
     const [isVoiceAssistantEnabled, setIsVoiceAssistantEnabled] = useState(false);
     const voiceAssistantAudioRef = useRef(null); // Ref to the voice assistant audio element
@@ -41,7 +42,7 @@ export default function HomePage() {
 
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.playbackRate = 0.75; // Slow down
+            videoRef.current.playbackRate = 0.85; // Slow down
         }
     }, []);
 
@@ -126,11 +127,11 @@ export default function HomePage() {
 
             // console.log('ORIGINAL BASE64:', response.data.audioData);
 
-            if (isValidBase64(response.data.audioData)) {
-                console.log("This is a valid base64 string.");
-            } else {
-                console.log("This is NOT a valid base64 string.");
-            }
+            // if (isValidBase64(response.data.audioData)) {
+            //     console.log("This is a valid base64 string.");
+            // } else {
+            //     console.log("This is NOT a valid base64 string.");
+            // }
 
 
             // Check if 'text' exists in response.data, if not, look at 'content' which you use in OpenAI response
@@ -152,14 +153,14 @@ export default function HomePage() {
                     // console.log('THIS IS OUR DECODED STRING:', byteCharacters)
 
                     const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
-                    console.log('THESE ARE OUR BYTE NUMBERS:', byteNumbers);
+                    // console.log('THESE ARE OUR BYTE NUMBERS:', byteNumbers);
 
                     const byteArray = new Uint8Array(byteNumbers);
                     // console.log('THIS IS OUR BYTE ARRAY:', byteArray);
 
                     // Convert the byte array to a Blob
                     const audioBlob = new Blob([byteArray], { type: 'audio/mp3' });
-                    console.log('THIS IS OUR audioBlob:', audioBlob);
+                    // console.log('THIS IS OUR audioBlob:', audioBlob);
 
                     // Create an object URL from the Blob
                     const audioURL = URL.createObjectURL(audioBlob);

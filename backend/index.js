@@ -31,14 +31,14 @@ const openai = new OpenAI({
 const upload = multer({ dest: 'uploads/' });
 
 app.post('/api/test', upload.single('file'), (req, res) => {
-    console.log('File:', req.file);
-    console.log('Body:', req.body);
+    // console.log('File:', req.file);
+    // console.log('Body:', req.body);
     res.send('Check the console');
 });
 
 // Define an async POST endpoint
 app.post('/api/transcribe', upload.single('file'), async (req, res) => {
-    console.log("HITTTT /api/transcribe");
+    // console.log("HITTTT /api/transcribe");
 
     // Use 'upload.single('file')' middleware to handle single file upload
 
@@ -49,7 +49,7 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
             return res.status(400).json({ error: 'No audio file provided' });
         }
 
-        console.log("Received File:", req.file);
+        // console.log("Received File:", req.file);
 
         // Read the uploaded audio file into a buffer using 'fs.readFileSync()'
         const fileBuffer = fs.readFileSync(req.file.path);
@@ -87,7 +87,7 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
             });
         });
 
-        console.log("Transcribed Text: ", openaiResponse.data.text);
+        // console.log("Transcribed Text: ", openaiResponse.data.text);
 
         // Send the response containing the transcribed text from OpenAI API
         res.json({
@@ -106,7 +106,7 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
 app.post('/api/completion', async (req, res) => {
     const messages = req.body.messages;
 
-    console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
+    // console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
         res.status(400).json({ error: "'messages' is a required property and should be a non-empty array" });
@@ -132,13 +132,24 @@ app.post('/api/completion', async (req, res) => {
             'Content-Type': 'application/json'
         };
 
+        // const data = {
+        //     "text": assistantMessageContent,
+        //     "model_id": "eleven_multilingual_v2",
+        //     "voice_settings": {
+        //         "stability": 0.65,
+        //         "similarity_boost": 0.85,
+        //         "style": 0.10,
+        //         "use_speaker_boost": true
+        //     }
+        // }
+
         const data = {
             "text": assistantMessageContent,
             "model_id": "eleven_multilingual_v2",
             "voice_settings": {
                 "stability": 0.65,
-                "similarity_boost": 0.85,
-                "style": 0.10,
+                "similarity_boost": 1,
+                "style": 0.15,
                 "use_speaker_boost": true
             }
         }
