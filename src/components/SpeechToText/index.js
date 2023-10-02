@@ -11,7 +11,6 @@ const SpeechToText = ({ setTranscribedText }) => {
     const sendAudioToServer = async (audioBlob) => {
         const formData = new FormData();
         formData.append('file', audioBlob);
-        // console.log('Audio Blob:', audioBlob)
 
         try {
             const response = await axios.post('http://localhost:3001/api/transcribe', formData, {
@@ -25,7 +24,6 @@ const SpeechToText = ({ setTranscribedText }) => {
             }
 
             // Handle the response, e.g., update your state with the transcribed text
-            // console.log("transcribed text", response.data.transcribedText);
         } catch (error) {
             console.error("Error sending audio data:", error);
         }
@@ -40,28 +38,18 @@ const SpeechToText = ({ setTranscribedText }) => {
 
                 let localAudioChunks = [];  // Using a local variable for immediate updates
 
-
-                // console.log("MediaRecorder mimeType:", newMediaRecorder.mimeType);
-
                 // const audioChunks = [];
 
                 newMediaRecorder.addEventListener("dataavailable", (event) => {
-                    // console.log("Data available:", event);
-                    // console.log("Data available, Size:", event.data.size);
 
                     localAudioChunks.push(event.data);
-                    // console.log('localAudioChunks', localAudioChunks);
 
                     // audioChunks.push(event.data);
                     setAudioChunks((prevAudioChunks) => [...prevAudioChunks, event.data]);
-                    // console.log('audioChunks after set', audioChunks)
 
                 });
 
-                // console.log("MediaRecorder State:", newMediaRecorder.state);
-
                 newMediaRecorder.addEventListener("stop", () => {
-                    // console.log("Recording stopped.");
                     // const audioBlob = new Blob(audioChunks);
                     // const audioUrl = URL.createObjectURL(audioBlob);
                     // setAudioData(audioUrl);
@@ -80,8 +68,6 @@ const SpeechToText = ({ setTranscribedText }) => {
         if (mediaRecorder) {
             mediaRecorder.stop();
             setRecording(false);
-
-            // console.log("Audio Chunks:", audioChunks);
 
             // Convert the audioChunks to a blob and send it to the backend
             // this is if we want everything we've said

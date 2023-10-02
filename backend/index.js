@@ -31,15 +31,11 @@ const openai = new OpenAI({
 const upload = multer({ dest: 'uploads/' });
 
 app.post('/api/test', upload.single('file'), (req, res) => {
-    // console.log('File:', req.file);
-    // console.log('Body:', req.body);
     res.send('Check the console');
 });
 
 // Define an async POST endpoint
 app.post('/api/transcribe', upload.single('file'), async (req, res) => {
-    // console.log("HITTTT /api/transcribe");
-
     // Use 'upload.single('file')' middleware to handle single file upload
 
     // Begin try-catch for error handling
@@ -48,8 +44,6 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
             console.error("No audio file provided or file is empty.");
             return res.status(400).json({ error: 'No audio file provided' });
         }
-
-        // console.log("Received File:", req.file);
 
         // Read the uploaded audio file into a buffer using 'fs.readFileSync()'
         const fileBuffer = fs.readFileSync(req.file.path);
@@ -87,8 +81,6 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
             });
         });
 
-        // console.log("Transcribed Text: ", openaiResponse.data.text);
-
         // Send the response containing the transcribed text from OpenAI API
         res.json({
             transcribedText: openaiResponse.data.text
@@ -106,8 +98,6 @@ app.post('/api/transcribe', upload.single('file'), async (req, res) => {
 app.post('/api/completion', async (req, res) => {
     const messages = req.body.messages;
 
-    // console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
-
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
         res.status(400).json({ error: "'messages' is a required property and should be a non-empty array" });
         return;
@@ -120,10 +110,7 @@ app.post('/api/completion', async (req, res) => {
             max_tokens: 100
         });
 
-        // console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
-
         const assistantMessageContent = completion.choices[0].message.content;
-        // console.log('THIS IS OUR assistantMessageContent:', assistantMessageContent);
 
         // Call ElevenLabs API
         const headers = {
@@ -162,8 +149,6 @@ app.post('/api/completion', async (req, res) => {
             }
         };
 
-        // console.log('THIS IS RIGHT BEFORE OUR ELEVEN RESPONSE');
-
         const elevenResponse = await axios.post(
             'https://api.elevenlabs.io/v1/text-to-speech/QXfxCfBzNjKSfjG6OB75/stream',
             data,
@@ -175,13 +160,6 @@ app.post('/api/completion', async (req, res) => {
 
         // TO MAKE SURE WE ARE GETTING THE RIGHT DATA AND IT IS READABLE
         // fs.writeFileSync('directOutput.mp3', elevenResponse.data, 'binary');
-
-        // console.log('THIS IS OUR elevenResponse:', elevenResponse);
-        // console.log('THIS IS OUR ELEVEN DATA', elevenResponse.data)
-        // console.log('Type of elevenResponse.data:', typeof elevenResponse.data);
-        // console.log('eleven labs data slice', elevenResponse.data.slice(0, 100));
-        // console.log('Eleven Response Headers:', elevenResponse.headers);
-
 
         // Respond to frontend
         const base64AudioData = Buffer.from(elevenResponse.data, 'binary').toString('base64');
@@ -215,8 +193,6 @@ app.all('*', (req, res) => {
 // app.post('/api/completion', async (req, res) => {
 //     const messages = req.body.messages;
 
-//     console.log("THESE ARE OUR MESSAGES:", messages);  // Debugging line
-
 //     if (!messages || !Array.isArray(messages) || messages.length === 0) {
 //         res.status(400).json({ error: "'messages' is a required property and should be a non-empty array" });
 //         return;
@@ -228,8 +204,6 @@ app.all('*', (req, res) => {
 //             messages: messages,
 //             max_tokens: 60
 //         });
-
-//         console.log("THIS IS THE OPENAI RESPONSE:", JSON.stringify(completion, null, 2));
 
 //         // res.json(completion.choices[0]);
 //         const assistantMessageContent = completion.choices[0].message.content;
@@ -269,7 +243,6 @@ app.all('*', (req, res) => {
 //             data,
 //             { headers }
 //         );
-//         console.log(response);
 //         // You'll likely want to do something with the response here, like sending the audio back to the client
 //         res.status(200).json(response.data);
 //     } catch (error) {
