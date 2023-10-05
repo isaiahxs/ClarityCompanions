@@ -200,14 +200,14 @@ export default function HomePage() {
 
     const videos = [
         starryMountains, //good
-        clouds, //good
-        flowers, //good
-        infinite, //good
-        milky_way, //good
-        mountain, //good
-        shoreline, //good
-        sunset, //good
-        wisp, //good
+        // clouds, //good
+        // flowers, //good
+        // infinite, //good
+        // milky_way, //good
+        // mountain, //good
+        // shoreline, //good
+        // sunset, //good
+        // wisp, //good
     ];
 
     const randomIndex = Math.floor(Math.random() * videos.length);

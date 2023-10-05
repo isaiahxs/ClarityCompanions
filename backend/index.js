@@ -28,6 +28,7 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
+// Middleware for handling 'multipart/form-data'. Allows a single file to be uploaded with field name 'file' that would temporarily be stored in 'uploads' folder
 const upload = multer({ dest: 'uploads/' });
 
 app.post('/api/test', upload.single('file'), (req, res) => {
