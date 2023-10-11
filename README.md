@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+<h1><a href="https://www.loom.com/share/10bb895f0dea423282287bbd2b42f176?sid=b47bc7ff-5bdb-41e7-9d23-12efda8c9480" target="_blank">Clarity Companions</a></h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Alt text](image.png)
 
-## Available Scripts
+<h2><a href="https://www.loom.com/share/10bb895f0dea423282287bbd2b42f176?sid=b47bc7ff-5bdb-41e7-9d23-12efda8c9480" target="_blank">View Demo</a></h2>
 
-In the project directory, you can run:
+## License
 
-### `npm start`
+Copyright (c) 2023 Isaiah Sinnathamby. All rights reserved.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Unauthorized copying of this software, via any medium, is strictly prohibited.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Overview
 
-### `npm test`
+Clarity Companions is a versatile AI chatbot designed to assist with motivation, therapy, and various other personal needs. Built on a powerful machine learning algorithm, the application aims to deliver personalized and impactful interactions. Developed with a tech stack that includes React, Redux, Node.js, and PostgreSQL, Clarity Companions offers a secure and user-friendly experience.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+- **Personalized Conversations:** Uses AI algorithms to understand user context and mood, delivering custom-tailored responses.
+  
+- **Multi-Functional:** Ideal for a range of use-cases including motivation, therapy, daily planning, and more.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Real-time Interactions:** Immediate response time to ensure a fluid, conversational experience.
+  
+<!-- - **Data Security:** Advanced encryption methods to ensure user data remains confidential. -->
+  
+<!-- - **User Analytics:** In-app analytics to track interaction history and user engagement. -->
+  
+- **Multi-Language Support:** Can continue conversations in over 20 languages to reach a broader audience.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Front-end: React, Redux
+- Back-end: Node.js, Express
+- APIs: OpenAI's Whisper API, OpenAI's GPT 3.5-turbo API, ElevenLabs' Text-to-Speech API
+- Other: AWS for cloud deployment
