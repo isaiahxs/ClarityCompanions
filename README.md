@@ -12,7 +12,7 @@ Unauthorized copying of this software, via any medium, is strictly prohibited.
 
 ## Overview
 
-Clarity Companions is a versatile AI chatbot designed to assist with motivation, therapy, and various other personal needs. Built on a powerful machine learning algorithm, the application aims to deliver personalized and impactful interactions. Developed with a tech stack that includes React, Redux, Node.js, and PostgreSQL, Clarity Companions offers a secure and user-friendly experience.
+Clarity Companions is a versatile AI chatbot designed to assist with motivation, therapy, and various other personal needs. Built on a powerful machine learning algorithm, the application aims to deliver personalized and impactful interactions. Developed with a tech stack that includes React, Node.js, Express, and various APIs, Clarity Companions offers a secure and user-friendly experience.
 
 ## Features
 
